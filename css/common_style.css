@@ -1,0 +1,9 @@
+body {
+	padding-top: 75px;
+	padding-bottom: 50px;
+	background-color: #eee;
+}
+
+.btn {
+	cursor: pointer;
+}
