@@ -44,27 +44,52 @@
 		<main class="container">
 			<div class="row">
 				<div class="col-sm-3">
-					Kolumna 1
+					
 				</div>
 				<div class="col-sm-6">
-					<form action="./components/logowanie.php" method="post">
+					<form action="./components/do_login.php" method="post">
 						<h2>Logowanie do systemu</h2>
 						<div class="form-group">
 							<label for="exampleInputText1">Login</label>
-							<input type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp" placeholder="Twój login">
+							<input type="text" class="form-control" id="exampleInputText1" aria-describedby="textHelp" placeholder="Twój login" name="login">
 						</div>
 						<div class="form-group">
 							<label for="exampleInputPassword1">Hasło</label>
-							<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Twoje hasło">
+							<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Twoje hasło" name="password">
 						</div>
 						<button type="submit" class="btn btn-primary">Zaloguj się</button>
 					</form>
 				</div>
 				<div class="col-sm-3">
-					Kolumna 3
+					
 				</div>
 			</div>
 		</main>
+		
+		<?php
+		
+		if(isset($_GET['err'])) {
+			$error_code = $_GET['err'];
+			switch ($error_code) {
+				case 0:
+					echo "<script>\nsetTimeout(function(){ alert(\"Error: No data received!\"); }, 100);\n</script>";
+					break;
+				case 1:
+					echo "<script>\nsetTimeout(function(){ alert(\"Error: Login or password field cannot be left empty!\"); }, 100);\n</script>";
+					break;
+				case 2:
+					echo "<script>\nsetTimeout(function(){ alert(\"Error: Login or password is invalid!\"); }, 100);\n</script>";
+					break;
+				case 3:
+					echo "<script>\nsetTimeout(function(){ alert(\"Error: No cookies found that means no valid session.\"); }, 100);\n</script>";
+					break;
+				case 4:
+					echo "<script>\nsetTimeout(function(){ alert(\"Error: Wrong data in cookies or your session has expired.\"); }, 100);\n</script>";
+					break;
+			}
+		}
+		
+		?>
 		
 	</body>
 </html>

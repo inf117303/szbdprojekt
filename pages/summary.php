@@ -1,3 +1,4 @@
+<?php include '../components/check_session.php'; ?>
 <!doctype html>
 <html lang="pl">
 	<head>
@@ -32,19 +33,16 @@
 			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="./podsumowanie.php">Podsumowanie</a>
+						<a class="nav-link" href="./summary.php">Podsumowanie</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="./zasoby.php">Zasoby</a>
+						<a class="nav-link" href="./resources.php">Zasoby</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="./personel.php">Personel</a>
+						<a class="nav-link" href="./personnel.php">Personel</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="./kontrola_dostepu.php">Kontrola dostępu</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link disabled" href="#">Disabled</a>
+						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
@@ -55,14 +53,26 @@
 						</div>
 					</li>
 				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="../components/do_logout.php">Wyloguj się</a>
+					</li>
+				</ul>
 			</div>
 		</nav>
 
 		<main class="container">
 
-			<div class="starter-template">
-				<h1>Bootstrap starter template</h1>
-				<p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+			<div class="row">
+				<div class="col-sm-4">
+					aaa
+				</div>
+				<div class="col-sm-4">
+					bbb
+				</div>
+				<div class="col-sm-4">
+					ccc
+				</div>
 			</div>
 
 		</main>
