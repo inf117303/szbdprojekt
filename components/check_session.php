@@ -14,15 +14,6 @@ if($cookies_exists == false) {
 	exit;
 }
 
-$mysqli = new mysqli('localhost', 'bart494_admin2', 'TvUurftbBeHp', 'bart494_szpitaltest2');
-
-if ($mysqli->connect_errno) {    
-    echo "ERROR\nFailed to make a MySQL connection. Details below:\n";
-    echo $mysqli->connect_errno . "\n";
-    echo $mysqli->connect_error . "\n";
-    exit;
-}
-
 $sql = "SELECT id FROM webmasters WHERE login='$check_login' AND password='$check_password'";
 if (!$result = $mysqli->query($sql)) {
     echo "ERROR\nQuery failed to execute and here is why: \n";

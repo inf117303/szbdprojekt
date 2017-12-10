@@ -1,5 +1,7 @@
 <?php
 
+include './globals.php';
+
 if (isset($_POST['login']) && isset($_POST['password'])) {
     $check_login = $_POST['login'];
 	$check_password = $_POST['password'];
@@ -18,15 +20,6 @@ if($check_login == "" || $check_password == "") {
 	//Empty strings
 	header('Location: http://managehospital.ga/index.php?err=1');
 	exit;
-}
-
-$mysqli = new mysqli('localhost', 'bart494_admin2', 'TvUurftbBeHp', 'bart494_szpitaltest2');
-
-if ($mysqli->connect_errno) {    
-    echo "ERROR\nFailed to make a MySQL connection. Details below:\n";
-    echo $mysqli->connect_errno . "\n";
-    echo $mysqli->connect_error . "\n";
-    exit;
 }
 
 $sql = "SELECT id FROM webmasters WHERE login='$check_login' AND password='$check_password'";

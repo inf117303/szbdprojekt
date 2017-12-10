@@ -1,4 +1,7 @@
-<?php include '../components/check_session.php'; ?>
+<?php
+include '../components/globals.php';
+include '../components/check_session.php';
+?>
 <!doctype html>
 <html lang="pl">
 	<head>
