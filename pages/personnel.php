@@ -5,7 +5,7 @@ include '../components/check_session.php';
 if(isset($_GET['option'])) {
 	$option = $_GET['option'];
 } else {
-	$option = 'showstock';
+	$option = 'workers';
 }
 ?>
 <!doctype html>
@@ -17,7 +17,7 @@ if(isset($_GET['option'])) {
 		<meta name="author" content="">
 		<link rel="icon" type="image/png" href="../images/website_icon.png">
 
-		<title>Zasoby &bull; Manage Hospital</title>
+		<title>Personel &bull; Manage Hospital</title>
 
 		<!-- Bootstrap core CSS -->
 		<link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -44,21 +44,21 @@ if(isset($_GET['option'])) {
 					<li class="nav-item">
 						<a class="nav-link" href="./summary.php">Podsumowanie</a>
 					</li>
-					<li class="nav-item active">
+					<li class="nav-item">
 						<a class="nav-link" href="./resources.php">Zasoby</a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item active">
 						<a class="nav-link" href="./personnel.php">Personel</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zarządzenie pacjentami</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown01">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<a class="dropdown-item" href="#">Something else here</a>
+							<a class="dropdown-item" href="#">Pacjenci</a>
+							<a class="dropdown-item" href="#">Leczenie</a>
+							<a class="dropdown-item" href="#">Odwiedziny</a>
 						</div>
 					</li>
 				</ul>
@@ -75,10 +75,10 @@ if(isset($_GET['option'])) {
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="list-group">
-						<a href="./resources.php?option=showstock" class="list-group-item list-group-item-action <?php echo ($option == 'showstock' ? 'active' : ''); ?>">Stan magazynu</a>
-						<a href="./resources.php?option=placeorder" class="list-group-item list-group-item-action <?php echo (($option == 'placeorder' || $option == 'processorder') ? 'active' : ''); ?>">Nowe zamówienie</a>
-						<a href="./resources.php?option=orderhistory" class="list-group-item list-group-item-action <?php echo ($option == 'orderhistory' ? 'active' : ''); ?>">Historia zamówień</a>
-						<a href="./resources.php?option=addmedicine" class="list-group-item list-group-item-action <?php echo (($option == 'addmedicine' || $option == 'processaddmed') ? 'active' : ''); ?>">Dodaj lek</a>
+						<a href="./personnel.php?option=workers" class="list-group-item list-group-item-action <?php echo ($option == 'workers' ? 'active' : ''); ?>">Lista pracowników</a>
+						<a href="./personnel.php?option=addworker" class="list-group-item list-group-item-action <?php echo (($option == 'addworker' || $option == 'processaddworker') ? 'active' : ''); ?>">Dodaj pracownika</a>
+						<a href="./personnel.php?option=payments" class="list-group-item list-group-item-action <?php echo ($option == 'payments' ? 'active' : ''); ?>">Lista wypłat</a>
+						<a href="./personnel.php?option=addpayment" class="list-group-item list-group-item-action <?php echo (($option == 'addpayment' || $option == 'processaddpayment') ? 'active' : ''); ?>">Nowa wypłata</a>
 					</div>
 				</div>
 				<div class="col-sm-1">
@@ -87,67 +87,106 @@ if(isset($_GET['option'])) {
 				<div class="col-sm-8">
 					
 					<?php
-					if($option == 'showstock') {
-						echo '<h1>Stan magazynu</h1>';
+					if($option == 'workers') {
+						echo '<h1>Lista pracowników</h1>';
 						
-						$sql = "SELECT * FROM leki_w_magazynie ORDER BY nazwa";
+						$sql = "SELECT * FROM osoby o JOIN pracownicy p ON o.pesel=p.pesel ORDER BY nazwisko";
 						$result = $mysqli->query($sql);
 						if ($result->num_rows == 0) {
 							echo '<div class="alert alert-info" role="alert">
-								<strong>Informacja</strong> Nie wprowadzono jeszcze żadnych leków do bazy danych.
+								<strong>Informacja</strong> Nie wprowadzono jeszcze żadnych informacji o pracownikach.
 							</div>';
 						} else {
-							echo "<table>\n<tr><th>ID</th><th>Nazwa</th><th>Ilość</th></tr>\n";							
+							echo "<table>\n<tr><th>Imię</th><th>Nazwisko</th><th>PESEL</th><th>Telefon</th><th>Adres</th><th>Stanowisko</th><th>Pensja</th></tr>\n";							
 							while ($row = $result->fetch_assoc()) {
-								echo "<tr><td>". $row['id_leku'] ."</td><td>". $row['nazwa'] ."</td><td>". $row['ilosc'] ."</td></tr>\n";
+								echo "<tr><td>". $row['imie'] ."</td><td>". $row['nazwisko'] ."</td><td>". $row['pesel'] ."</td><td>". $row['telefon'] ."</td><td>". $row['adres'] ."</td><td>". $row['stanowisko'] ."</td><td>". $row['pensja'] ."</td></tr>\n";
 							}
 							echo "</table>\n";
 						}
-					} elseif($option == 'placeorder') {
-						echo "<h1>Nowe zamówienie</h1>\n<h5>Wprowadź informacje o zamówieniu</h5>";
+					} elseif($option == 'addworker') {
+						echo "<h1>Dodaj pracownika</h1>\n<h5>Wprowadź informacje o nowym pracowniku</h5>";
 						
-						$sql = "SELECT * FROM leki_w_magazynie ORDER BY nazwa";
-						$result = $mysqli->query($sql);
-						$leki=array();						
-						while ($row = $result->fetch_assoc()) {
-							array_push($leki,array($row['id_leku'], $row['nazwa']));
-						}
-						
-						echo '<form action="./resources.php?option=processorder" method="post">
+						echo '<form action="./personnel.php?option=processaddworker" method="post">
 								<div class="form-group">
-									<label for="fselect1">Nazwa leku</label>
-									<select class="form-control" id="fselect1" name="zam_id_leku">';
-									foreach ($leki as &$entry) {
-										echo '<option value="'. $entry[0] .'">'. $entry[1] .'</option>';
-									}
-						echo '</select>
+									<label for="finput1">Imię</label>
+									<input type="text" class="form-control" id="finput1" name="imie">
 								</div>
 								<div class="form-group">
-									<label for="finput1">Zamawiana ilość</label>
-									<input type="number" class="form-control" id="finput1" name="zam_ilosc">
+									<label for="finput2">Nazwisko</label>
+									<input type="text" class="form-control" id="finput2" name="nazwisko">
 								</div>
 								<div class="form-group">
-									<label for="finput2">Kwota zamówienia</label>
-									<input type="number" class="form-control" id="finput2" name="zam_kwota">
+									<label for="finput3">PESEL</label>
+									<input type="text" class="form-control" id="finput3" name="pesel">
+								</div>
+								<div class="form-group">
+									<label for="finput4">Adres</label>
+									<input type="text" class="form-control" id="finput4" name="adres">
+								</div>
+								<div class="form-group">
+									<label for="finput5">Telefon</label>
+									<input type="text" class="form-control" id="finput5" name="telefon">
+								</div>
+								<div class="form-group">
+									<label for="finput6">Pensja</label>
+									<input type="number" min="1" class="form-control" id="finput6" name="pensja">
+								</div>
+								<div class="form-group">
+									<label for="fselect1">Stanowisko</label>
+									<select class="form-control" id="fselect1" name="stanowisko" onchange="wybranoStanowisko()">
+										<option value="pielęgniarka">Pielęgniarka</option>
+										<option value="położna">Położna</option>
+										<option value="asystent">Asystent</option>
+										<option value="lekarz">Lekarz</option>
+										<option value="laborant">Laborant</option>
+										<option value="sanitariusz">Sanitariusz</option>
+										<option value="salowy">Salowy</option>
+										<option value="inne">Inne</option>
+									</select>
+								</div>
+								<div class="form-group" id="inputSpecjalizacja" style="display: none">
+									<label for="fselect2">Specjalizacja</label>
+									<select class="form-control" id="fselect2" name="specjalizacja">
+										<option value="laryngolog">Laryngolog</option>
+										<option value="neurolog">Neurolog</option>
+										<option value="kardiolog">Kardiolog</option>
+										<option value="internista">Internista</option>
+										<option value="dermatolog">Dermatolog</option>
+										<option value="chirurg">Chirurg</option>
+									</select>
 								</div>
 								<button type="submit" class="btn btn-primary">Zatwierdź</button>
 							</form>';
-					} elseif($option == 'processorder') {
-						echo "<h1>Nowe zamówienie</h1>\n";
+							echo '<script>
+							function wybranoStanowisko() {
+								if(document.getElementById("fselect1").value == "lekarz") {
+									document.getElementById("inputSpecjalizacja").style.display = "block";
+								} else {
+									document.getElementById("inputSpecjalizacja").style.display = "none";
+								}
+							}
+							</script>';
+					} elseif($option == 'processaddworker') {
+						echo "<h1>Dodaj pracownika</h1>\n";
 						$form_data_valid = false;
-						if(isset($_POST['zam_id_leku']) && isset($_POST['zam_ilosc']) && isset($_POST['zam_kwota'])) {
-							if(is_numeric($_POST['zam_ilosc']) && $_POST['zam_ilosc'] > 0 && is_numeric($_POST['zam_kwota']) && $_POST['zam_kwota'] > 0) {
+						if(isset($_POST['imie']) && isset($_POST['nazwisko']) && isset($_POST['pesel']) && isset($_POST['adres']) && isset($_POST['pensja'])) {
+							if(is_numeric($_POST['pensja']) && $_POST['pensja'] > 0) {
 								$form_data_valid = true;
-							}							
+							}												
 						}
 						if($form_data_valid == true) {
-							$zam_data = date('Y-m-d');
-							$zam_id = dechex(time());
-							$zam_id_leku = $_POST['zam_id_leku'];
-							$zam_ilosc = $_POST['zam_ilosc'];
-							$zam_kwota = $_POST['zam_kwota'];
-							$sql_do1 = "INSERT INTO `zamowienia`(`data`, `ilosc`, `wartosc`, `id_zamowienia`, `id_leku`) VALUES ('$zam_data', $zam_ilosc, $zam_kwota, '$zam_id', '$zam_id_leku')";
-							$sql_do2 = "UPDATE `leki_w_magazynie` SET `ilosc`=ilosc+$zam_ilosc WHERE `id_leku`='$zam_id_leku'";
+							$imie = $_POST['imie'];
+							$nazwisko = $_POST['nazwisko'];
+							$pesel = $_POST['pesel'];
+							$adres = $_POST['adres'];							
+							if(isset($_POST['telefon'])) $telefon = $_POST['telefon'];
+							else $telefon = "";
+							$pensja = $_POST['pensja'];		
+							$stanowisko = $_POST['stanowisko'];
+							$specjalizacja = $_POST['specjalizacja'];
+							$sql_do1 = "INSERT INTO `osoby`(`imie`, `nazwisko`, `pesel`, `adres`, `telefon`) VALUES ('$imie', '$nazwisko', '$pesel', '$adres', '$telefon')";
+							$sql_do2 = "INSERT INTO `pracownicy`(`stanowisko`, `pensja`, `pesel`) VALUES ('$stanowisko', '$pensja', '$pesel')";
+							$sql_do3 = "INSERT INTO `lekarze`(`pesel`, `specjalizacja`) VALUES ('$pesel', '$specjalizacja')";
 							if (!$result1 = $mysqli->query($sql_do1)) {
 								echo '<div class="alert alert-danger" role="alert">
 										<strong>Wystąpił błąd bazy danych!</strong> Numer: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
@@ -158,17 +197,29 @@ if(isset($_GET['option'])) {
 											<strong>Wystąpił błąd</strong> Numer: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
 										</div>';
 								} else {
-									echo '<div class="alert alert-success" role="alert">
-										<strong>Sukces</strong> Zamówienie zostało pomyślnie wprowadzone do bazy danych.
-									</div>';
+									if ($stanowisko == "lekarz") {
+										if(!$result3 = $mysqli->query($sql_do3)) {
+											echo '<div class="alert alert-danger" role="alert">
+												<strong>Wystąpił błąd</strong> Numer: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
+											</div>';
+										} else {
+											echo '<div class="alert alert-success" role="alert">
+												<strong>Sukces</strong> Informacja o nowym pracowniku została pomyślnie wprowadzona do bazy danych.
+											</div>';
+										}
+									} else {
+										echo '<div class="alert alert-success" role="alert">
+											<strong>Sukces</strong> Informacja o nowym pracowniku została pomyślnie wprowadzona do bazy danych.
+										</div>';
+									}									
 								}								
 							}
 						} else {
 							echo '<div class="alert alert-warning" role="alert">
-									<strong>Ostrzeżenie</strong> W formularzu wprowadzono nieprawidłowe dane. Ilość oraz kwota zamówienia muszą być liczbami większymi od zera.
+									<strong>Ostrzeżenie</strong> W formularzu pojawyły się błędy. Wszystkie pola poza telefonem są wymagane. Pensja musi być liczbą większą od zera.
 								</div>';
 						}
-					} elseif($option == 'orderhistory') {
+					} elseif($option == 'payments') {
 						echo '<h1>Historia zamówień</h1>';
 						
 						$sql = "SELECT *, zam.ilosc AS ilezamowiono FROM zamowienia AS zam JOIN leki_w_magazynie AS lek ON zam.id_leku=lek.id_leku ORDER BY zam.id_zamowienia DESC";
@@ -186,17 +237,17 @@ if(isset($_GET['option'])) {
 							print_r($row);
 							echo "</table>\n";
 						}
-					} elseif($option == 'addmedicine') {
+					} elseif($option == 'addpayment') {
 						echo "<h1>Dodaj nowy lek</h1>\n<h5>Wprowadź informacje na temat nowego leku</h5>";
 						
-						echo '<form action="./resources.php?option=processaddmed" method="post">
+						echo '<form action="./personnel.php?option=processaddmed" method="post">
 								<div class="form-group">
 									<label for="finput1">Identyfikator leku</label>
-									<input type="text" maxlength="40" class="form-control" id="finput1" name="dnl_id">
+									<input type="text" maxlength="40" class="form-control" id="finput1" aria-describedby="textHelp" name="dnl_id">
 								</div>
 								<div class="form-group">
 									<label for="finput2">Nazwa leku</label>
-									<input type="text" maxlength="15" class="form-control" id="finput2" name="dnl_nazwa">
+									<input type="text" maxlength="15" class="form-control" id="finput2" aria-describedby="textHelp" name="dnl_nazwa">
 								</div>
 								<div class="form-group">
 									<label for="finput3">Początkowy stan ilościowy w magazynie</label>
@@ -204,7 +255,7 @@ if(isset($_GET['option'])) {
 								</div>
 								<button type="submit" class="btn btn-primary">Zatwierdź</button>
 							</form>';
-					} elseif($option == 'processaddmed') {
+					} elseif($option == 'processaddpayment') {
 						echo "<h1>Dodaj nowy lek</h1>\n";
 						$form_data_valid = false;
 						if(isset($_POST['dnl_id']) && isset($_POST['dnl_nazwa']) && isset($_POST['dnl_ilosc'])) {

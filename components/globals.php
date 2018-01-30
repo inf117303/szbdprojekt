@@ -2,9 +2,9 @@
 
 // Global variables
 $db_server = 'localhost';
-$db_user = 'bart494_admin2';
-$db_password = 'TvUurftbBeHp';
-$db_name = 'bart494_szpitaltest2';
+$db_user = 'bart494_admin1';
+$db_password = 'cQfmnKQA48Ur';
+$db_name = 'bart494_szpitaltest1';
 
 // Database connection
 
@@ -16,5 +16,8 @@ if ($mysqli->connect_errno) {
     echo $mysqli->connect_error . "\n";
     exit;
 }
+
+$mysqli->set_charset("utf8");
+$mysqli->query("SET collation_connection = utf8_polish_ci");
 
 ?>

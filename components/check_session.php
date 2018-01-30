@@ -24,7 +24,7 @@ if (!$result = $mysqli->query($sql)) {
 
 if ($result->num_rows == 0) {
     //Wrong data in cookies or session has expired
-	header('Location: http://managehospital.ga/index.php??err=4');
+	header('Location: http://managehospital.ga/index.php?err=4');
 	exit;
 } else {
 	// odśwież ciasteczka
