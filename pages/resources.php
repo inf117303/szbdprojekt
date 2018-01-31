@@ -150,12 +150,12 @@ if(isset($_GET['option'])) {
 							$sql_do2 = "UPDATE `leki_w_magazynie` SET `ilosc`=ilosc+$zam_ilosc WHERE `id_leku`='$zam_id_leku'";
 							if (!$result1 = $mysqli->query($sql_do1)) {
 								echo '<div class="alert alert-danger" role="alert">
-										<strong>Wystąpił błąd bazy danych!</strong> Numer: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
+										<strong>Wystąpił błąd bazy danych!</strong><br>Numer błędu: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
 									</div>';
 							} else {
 								if (!$result2 = $mysqli->query($sql_do2)) {
 									echo '<div class="alert alert-danger" role="alert">
-											<strong>Wystąpił błąd</strong> Numer: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
+											<strong>Wystąpił błąd</strong><br>Numer błędu: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
 										</div>';
 								} else {
 									echo '<div class="alert alert-success" role="alert">
@@ -230,7 +230,7 @@ if(isset($_GET['option'])) {
 								$sql_do3 = "INSERT INTO `leki_w_magazynie`(`id_leku`, `nazwa`, `ilosc`) VALUES ('$dnl_id', '$dnl_nazwa' , $dnl_ilosc)";
 								if (!$result3 = $mysqli->query($sql_do3)) {
 								echo '<div class="alert alert-danger" role="alert">
-										<strong>Wystąpił błąd bazy danych!</strong> Numer: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
+										<strong>Wystąpił błąd bazy danych!</strong><br>Numer błędu: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
 									</div>';
 								} else {
 									echo '<div class="alert alert-success" role="alert">
