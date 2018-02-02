@@ -53,6 +53,9 @@ if(isset($_GET['option'])) {
 					<li class="nav-item">
 						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./treatments.php">Terapie</a>
+					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -183,7 +186,7 @@ if(isset($_GET['option'])) {
 							while ($row = $result->fetch_assoc()) {
 								echo "<tr><td>". $row['id_zamowienia'] ."</td><td>". $row['data'] ."</td><td>". $row['nazwa'] ."</td><td>". $row['id_leku'] ."</td><td>". $row['ilezamowiono'] ."</td><td>". $row['wartosc'] ."</td></tr>\n";
 							}
-							print_r($row);
+							//print_r($row);
 							echo "</table>\n";
 						}
 					} elseif($option == 'addmedicine') {
@@ -192,11 +195,11 @@ if(isset($_GET['option'])) {
 						echo '<form action="./resources.php?option=processaddmed" method="post">
 								<div class="form-group">
 									<label for="finput1">Identyfikator leku</label>
-									<input type="text" maxlength="40" class="form-control" id="finput1" name="dnl_id">
+									<input type="text" maxlength="15" class="form-control" id="finput1" name="dnl_id">
 								</div>
 								<div class="form-group">
 									<label for="finput2">Nazwa leku</label>
-									<input type="text" maxlength="15" class="form-control" id="finput2" name="dnl_nazwa">
+									<input type="text" maxlength="40" class="form-control" id="finput2" name="dnl_nazwa">
 								</div>
 								<div class="form-group">
 									<label for="finput3">Początkowy stan ilościowy w magazynie</label>

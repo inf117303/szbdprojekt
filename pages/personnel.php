@@ -53,12 +53,15 @@ if(isset($_GET['option'])) {
 					<li class="nav-item">
 						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./treatments.php">Terapie</a>
+					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zarządzenie pacjentami</a>
+						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown01">
-							<a class="dropdown-item" href="#">Pacjenci</a>
-							<a class="dropdown-item" href="#">Leczenie</a>
-							<a class="dropdown-item" href="#">Odwiedziny</a>
+							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="#">Another action</a>
+							<a class="dropdown-item" href="#">Something else here</a>
 						</div>
 					</li>
 				</ul>
@@ -79,6 +82,7 @@ if(isset($_GET['option'])) {
 						<a href="./personnel.php?option=addworker" class="list-group-item list-group-item-action <?php echo (($option == 'addworker' || $option == 'processaddworker') ? 'active' : ''); ?>">Dodaj pracownika</a>
 						<a href="./personnel.php?option=payments" class="list-group-item list-group-item-action <?php echo ($option == 'payments' ? 'active' : ''); ?>">Lista wypłat</a>
 						<a href="./personnel.php?option=addpayment" class="list-group-item list-group-item-action <?php echo (($option == 'addpayment' || $option == 'processaddpayment') ? 'active' : ''); ?>">Nowa wypłata</a>
+						<a href="./personnel.php?option=autopayments" class="list-group-item list-group-item-action <?php echo (($option == 'autopayments' || $option == 'processautopayments') ? 'active' : ''); ?>">Automatyczne wypłaty</a>
 					</div>
 				</div>
 				<div class="col-sm-1">

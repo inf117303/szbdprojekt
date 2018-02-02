@@ -2,9 +2,9 @@
 
 // Global variables
 $db_server = 'localhost';
-$db_user = 'bart494_admin1';
-$db_password = 'cQfmnKQA48Ur';
-$db_name = 'bart494_szpitaltest1';
+$db_user = 'bart494_admin3';
+$db_password = '8TKgqpZg6WJe';
+$db_name = 'bart494_szpitalpr';
 
 // Database connection
 

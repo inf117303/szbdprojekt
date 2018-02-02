@@ -47,6 +47,9 @@ include '../components/check_session.php';
 					<li class="nav-item">
 						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./treatments.php">Terapie</a>
+					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -68,13 +71,14 @@ include '../components/check_session.php';
 
 			<div class="row">
 				<div class="col-sm-4">
-					aaa
+					<p>Liczba pacjentów w szpitalu:<br>AAA</p>
+					<p>Liczba lekarzy:<br>BBB</p>
 				</div>
 				<div class="col-sm-4">
-					bbb
+					Liczba odwiedzających dzisiaj:<br>CCC
 				</div>
 				<div class="col-sm-4">
-					ccc
+					Stan magazynu:<br>DDD
 				</div>
 			</div>
 
