@@ -2,10 +2,10 @@
 include '../components/globals.php';
 include '../components/check_session.php';
 
-if(isset($_GET['option'])) {
-	$option = $_GET['option'];
+if(isset($_GET['action'])) {
+	$action = $_GET['action'];
 } else {
-	$option = 'showstock';
+	$action = 'showstock';
 }
 ?>
 <!doctype html>
@@ -78,10 +78,10 @@ if(isset($_GET['option'])) {
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="list-group">
-						<a href="./resources.php?option=showstock" class="list-group-item list-group-item-action <?php echo ($option == 'showstock' ? 'active' : ''); ?>">Stan magazynu</a>
-						<a href="./resources.php?option=placeorder" class="list-group-item list-group-item-action <?php echo (($option == 'placeorder' || $option == 'processorder') ? 'active' : ''); ?>">Nowe zamówienie</a>
-						<a href="./resources.php?option=orderhistory" class="list-group-item list-group-item-action <?php echo ($option == 'orderhistory' ? 'active' : ''); ?>">Historia zamówień</a>
-						<a href="./resources.php?option=addmedicine" class="list-group-item list-group-item-action <?php echo (($option == 'addmedicine' || $option == 'processaddmed') ? 'active' : ''); ?>">Dodaj lek</a>
+						<a href="./resources.php?action=showstock" class="list-group-item list-group-item-action <?php echo ($action == 'showstock' ? 'active' : ''); ?>">Stan magazynu</a>
+						<a href="./resources.php?action=placeorder" class="list-group-item list-group-item-action <?php echo (($action == 'placeorder' || $action == 'processorder') ? 'active' : ''); ?>">Nowe zamówienie</a>
+						<a href="./resources.php?action=orderhistory" class="list-group-item list-group-item-action <?php echo ($action == 'orderhistory' ? 'active' : ''); ?>">Historia zamówień</a>
+						<a href="./resources.php?action=addmedicine" class="list-group-item list-group-item-action <?php echo (($action == 'addmedicine' || $action == 'processaddmed') ? 'active' : ''); ?>">Dodaj lek</a>
 					</div>
 				</div>
 				<div class="col-sm-1">
@@ -90,7 +90,7 @@ if(isset($_GET['option'])) {
 				<div class="col-sm-8">
 					
 					<?php
-					if($option == 'showstock') {
+					if($action == 'showstock') {
 						echo '<h1>Stan magazynu</h1>';
 						
 						$sql = "SELECT * FROM leki_w_magazynie ORDER BY nazwa";
@@ -106,7 +106,7 @@ if(isset($_GET['option'])) {
 							}
 							echo "</table>\n";
 						}
-					} elseif($option == 'placeorder') {
+					} elseif($action == 'placeorder') {
 						echo "<h1>Nowe zamówienie</h1>\n<h5>Wprowadź informacje o zamówieniu</h5>";
 						
 						$sql = "SELECT * FROM leki_w_magazynie ORDER BY nazwa";
@@ -116,7 +116,7 @@ if(isset($_GET['option'])) {
 							array_push($leki,array($row['id_leku'], $row['nazwa']));
 						}
 						
-						echo '<form action="./resources.php?option=processorder" method="post">
+						echo '<form action="./resources.php?action=processorder" method="post">
 								<div class="form-group">
 									<label for="fselect1">Nazwa leku</label>
 									<select class="form-control" id="fselect1" name="zam_id_leku">';
@@ -135,7 +135,7 @@ if(isset($_GET['option'])) {
 								</div>
 								<button type="submit" class="btn btn-primary">Zatwierdź</button>
 							</form>';
-					} elseif($option == 'processorder') {
+					} elseif($action == 'processorder') {
 						echo "<h1>Nowe zamówienie</h1>\n";
 						$form_data_valid = false;
 						if(isset($_POST['zam_id_leku']) && isset($_POST['zam_ilosc']) && isset($_POST['zam_kwota'])) {
@@ -171,7 +171,7 @@ if(isset($_GET['option'])) {
 									<strong>Ostrzeżenie</strong> W formularzu wprowadzono nieprawidłowe dane. Ilość oraz kwota zamówienia muszą być liczbami większymi od zera.
 								</div>';
 						}
-					} elseif($option == 'orderhistory') {
+					} elseif($action == 'orderhistory') {
 						echo '<h1>Historia zamówień</h1>';
 						
 						$sql = "SELECT *, zam.ilosc AS ilezamowiono FROM zamowienia AS zam JOIN leki_w_magazynie AS lek ON zam.id_leku=lek.id_leku ORDER BY zam.id_zamowienia DESC";
@@ -189,10 +189,10 @@ if(isset($_GET['option'])) {
 							//print_r($row);
 							echo "</table>\n";
 						}
-					} elseif($option == 'addmedicine') {
+					} elseif($action == 'addmedicine') {
 						echo "<h1>Dodaj nowy lek</h1>\n<h5>Wprowadź informacje na temat nowego leku</h5>";
 						
-						echo '<form action="./resources.php?option=processaddmed" method="post">
+						echo '<form action="./resources.php?action=processaddmed" method="post">
 								<div class="form-group">
 									<label for="finput1">Identyfikator leku</label>
 									<input type="text" maxlength="15" class="form-control" id="finput1" name="dnl_id">
@@ -207,7 +207,7 @@ if(isset($_GET['option'])) {
 								</div>
 								<button type="submit" class="btn btn-primary">Zatwierdź</button>
 							</form>';
-					} elseif($option == 'processaddmed') {
+					} elseif($action == 'processaddmed') {
 						echo "<h1>Dodaj nowy lek</h1>\n";
 						$form_data_valid = false;
 						if(isset($_POST['dnl_id']) && isset($_POST['dnl_nazwa']) && isset($_POST['dnl_ilosc'])) {

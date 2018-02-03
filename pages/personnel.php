@@ -2,10 +2,10 @@
 include '../components/globals.php';
 include '../components/check_session.php';
 
-if(isset($_GET['option'])) {
-	$option = $_GET['option'];
+if(isset($_GET['action'])) {
+	$action = $_GET['action'];
 } else {
-	$option = 'workers';
+	$action = 'workers';
 }
 ?>
 <!doctype html>
@@ -78,11 +78,11 @@ if(isset($_GET['option'])) {
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="list-group">
-						<a href="./personnel.php?option=workers" class="list-group-item list-group-item-action <?php echo ($option == 'workers' ? 'active' : ''); ?>">Lista pracowników</a>
-						<a href="./personnel.php?option=addworker" class="list-group-item list-group-item-action <?php echo (($option == 'addworker' || $option == 'processaddworker') ? 'active' : ''); ?>">Dodaj pracownika</a>
-						<a href="./personnel.php?option=payments" class="list-group-item list-group-item-action <?php echo ($option == 'payments' ? 'active' : ''); ?>">Lista wypłat</a>
-						<a href="./personnel.php?option=addpayment" class="list-group-item list-group-item-action <?php echo (($option == 'addpayment' || $option == 'processaddpayment') ? 'active' : ''); ?>">Nowa wypłata</a>
-						<a href="./personnel.php?option=autopayments" class="list-group-item list-group-item-action <?php echo (($option == 'autopayments' || $option == 'processautopayments') ? 'active' : ''); ?>">Automatyczne wypłaty</a>
+						<a href="./personnel.php?action=workers" class="list-group-item list-group-item-action <?php echo ($action == 'workers' ? 'active' : ''); ?>">Lista pracowników</a>
+						<a href="./personnel.php?action=addworker" class="list-group-item list-group-item-action <?php echo (($action == 'addworker' || $action == 'processaddworker') ? 'active' : ''); ?>">Dodaj pracownika</a>
+						<a href="./personnel.php?action=payments" class="list-group-item list-group-item-action <?php echo ($action == 'payments' ? 'active' : ''); ?>">Lista wypłat</a>
+						<a href="./personnel.php?action=addpayment" class="list-group-item list-group-item-action <?php echo (($action == 'addpayment' || $action == 'processaddpayment') ? 'active' : ''); ?>">Nowa wypłata</a>
+						<a href="./personnel.php?action=autopayments" class="list-group-item list-group-item-action <?php echo (($action == 'autopayments' || $action == 'processautopayments') ? 'active' : ''); ?>">Automatyczne wypłaty</a>
 					</div>
 				</div>
 				<div class="col-sm-1">
@@ -91,7 +91,7 @@ if(isset($_GET['option'])) {
 				<div class="col-sm-8">
 					
 					<?php
-					if($option == 'workers') {
+					if($action == 'workers') {
 						echo '<h1>Lista pracowników</h1>';
 						
 						$sql = "SELECT * FROM osoby o JOIN pracownicy p ON o.pesel=p.pesel ORDER BY nazwisko";
@@ -107,10 +107,10 @@ if(isset($_GET['option'])) {
 							}
 							echo "</table>\n";
 						}
-					} elseif($option == 'addworker') {
+					} elseif($action == 'addworker') {
 						echo "<h1>Dodaj pracownika</h1>\n<h5>Wprowadź informacje o nowym pracowniku</h5>";
 						
-						echo '<form action="./personnel.php?option=processaddworker" method="post">
+						echo '<form action="./personnel.php?action=processaddworker" method="post">
 								<div class="form-group">
 									<label for="finput1">Imię</label>
 									<input type="text" class="form-control" id="finput1" name="imie">
@@ -170,7 +170,7 @@ if(isset($_GET['option'])) {
 								}
 							}
 							</script>';
-					} elseif($option == 'processaddworker') {
+					} elseif($action == 'processaddworker') {
 						echo "<h1>Dodaj pracownika</h1>\n";
 						$form_data_valid = false;
 						if(isset($_POST['imie']) && isset($_POST['nazwisko']) && isset($_POST['pesel']) && isset($_POST['adres']) && isset($_POST['pensja'])) {
@@ -223,7 +223,7 @@ if(isset($_GET['option'])) {
 									<strong>Ostrzeżenie</strong> W formularzu pojawyły się błędy. Wszystkie pola poza telefonem są wymagane. Pensja musi być liczbą większą od zera.
 								</div>';
 						}
-					} elseif($option == 'payments') {
+					} elseif($action == 'payments') {
 						echo '<h1>Lista wypłat</h1>';
 						
 						$sql = "SELECT * FROM wyplaty ORDER BY data DESC";
@@ -241,7 +241,7 @@ if(isset($_GET['option'])) {
 							print_r($row);
 							echo "</table>\n";
 						}
-					} elseif($option == 'addpayment') {
+					} elseif($action == 'addpayment') {
 						echo "<h1>Nowa wypłata</h1>";
 
 						$sql = "SELECT pesel FROM pracownicy";
@@ -275,7 +275,7 @@ if(isset($_GET['option'])) {
 								ustawKwoteWyplaty();
 							}
 							</script>';
-							echo '<form action="./personnel.php?option=processaddpayment" method="post">
+							echo '<form action="./personnel.php?action=processaddpayment" method="post">
 									<div class="form-group">
 										<label for="fselect1">Wybierz pracownika</label>
 										<select class="form-control" id="fselect1" name="pesel" onchange="ustawKwoteWyplaty()">';
@@ -295,7 +295,7 @@ if(isset($_GET['option'])) {
 									<button type="submit" class="btn btn-primary">Zatwierdź</button>
 								</form>';
 						}
-					} elseif($option == 'processaddpayment') {
+					} elseif($action == 'processaddpayment') {
 						echo "<h1>Nowa wypłata</h1>\n";
 						$form_data_valid = false;
 						if(isset($_POST['kwota']) && isset($_POST['premia'])) {

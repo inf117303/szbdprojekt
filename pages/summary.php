@@ -69,6 +69,10 @@ include '../components/check_session.php';
 
 		<main class="container">
 
+			<div class="text-center" style="margin-bottom: 25px">
+				<img class="img-fluid rounded" src="../hospital_photo.jpg" alt="Photo of the hospital"> 
+			</div>			
+
 			<div class="row">
 				<div class="col-sm-4">
 					<p>Liczba pacjentów w szpitalu:<br>AAA</p>
