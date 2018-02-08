@@ -11,7 +11,7 @@ include '../components/check_session.php';
 		<meta name="author" content="">
 		<link rel="icon" type="image/png" href="../images/website_icon.png">
 
-		<title>Zasoby &bull; Manage Hospital</title>
+		<title>Podsumowanie &bull; Manage Hospital</title>
 
 		<!-- Bootstrap core CSS -->
 		<link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -48,15 +48,7 @@ include '../components/check_session.php';
 						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="./treatments.php">Terapie</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-						<div class="dropdown-menu" aria-labelledby="dropdown01">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</div>
+						<a class="nav-link" href="./patients.php">Pacjenci</a>
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-auto">
@@ -69,20 +61,49 @@ include '../components/check_session.php';
 
 		<main class="container">
 
-			<div class="text-center" style="margin-bottom: 25px">
-				<img class="img-fluid rounded" src="../hospital_photo.jpg" alt="Photo of the hospital"> 
-			</div>			
+			<div class="row">
+				<div class="col-sm-1">
+ 
+				</div>
+				<div class="col-sm-10">
+					<div class="text-center" style="margin-bottom: 25px">
+						<img class="img-fluid rounded" src="../hospital_photo.jpg" alt="Photo of the hospital"> 
+					</div>		
+				</div>
+				<div class="col-sm-1">
+ 
+				</div>
+			</div>
 
 			<div class="row">
-				<div class="col-sm-4">
-					<p>Liczba pacjentów w szpitalu:<br>AAA</p>
-					<p>Liczba lekarzy:<br>BBB</p>
+				<div class="col-sm-4 text-center">
+					<?php
+						$sql = "SELECT pesel FROM lekarze";
+						$result = $mysqli->query($sql);
+						$liczba_lekarzy = $result->num_rows;
+						echo "<p>Liczba zatrudnionych lekarzy:<br>". $liczba_lekarzy ."</p>";
+					?>							
 				</div>
-				<div class="col-sm-4">
-					Liczba odwiedzających dzisiaj:<br>CCC
+				<div class="col-sm-4 text-center">
+					<?php
+						$sql = "SELECT pesel FROM pacjenci p JOIN rejestracje r ON r.pacjenci_pesel=p.pesel WHERE data_wypisu IS NULL";
+						$result = $mysqli->query($sql);
+						$liczba_pacjentów = $result->num_rows;
+						echo "<p>Liczba pacjentów w szpitalu:<br>". $liczba_pacjentów ."</p>";
+					?>			
 				</div>
-				<div class="col-sm-4">
-					Stan magazynu:<br>DDD
+				<div class="col-sm-4 text-center">
+					<?php
+						$sql = "SELECT * FROM leki_w_magazynie WHERE CAST(ilosc AS UNSIGNED) < 14";
+						$result = $mysqli->query($sql);
+						$deficyty = $result->num_rows;
+						if($deficyty > 0) {
+							$mag = "Braki w zaopatrzeniu!";
+						} else {
+							$mag = "OK";
+						}
+						echo "<p>Stan magazynu:<br>". $mag ."</p>";
+					?>					
 				</div>
 			</div>
 

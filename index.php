@@ -34,9 +34,6 @@
 					<li class="nav-item active">
 						<a class="nav-link" href="./">Logowanie</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Link 1</a>
-					</li>
 				</ul>
 			</div>
 		</nav>

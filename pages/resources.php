@@ -54,15 +54,7 @@ if(isset($_GET['action'])) {
 						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="./treatments.php">Terapie</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-						<div class="dropdown-menu" aria-labelledby="dropdown01">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</div>
+						<a class="nav-link" href="./patients.php">Pacjenci</a>
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-auto">
@@ -237,7 +229,7 @@ if(isset($_GET['action'])) {
 									</div>';
 								} else {
 									echo '<div class="alert alert-success" role="alert">
-										<strong>Sukces</strong> Zamówienie zostało pomyślnie wprowadzone do bazy danych.
+										<strong>Sukces</strong> Informacja o nowym leku została pomyślnie wprowadzona do bazy danych.
 									</div>';
 								}
 							}

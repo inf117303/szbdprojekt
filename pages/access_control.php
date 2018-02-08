@@ -54,15 +54,7 @@ if(isset($_GET['action'])) {
 						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="./treatments.php">Terapie</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-						<div class="dropdown-menu" aria-labelledby="dropdown01">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</div>
+						<a class="nav-link" href="./patients.php">Pacjenci</a>
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-auto">
@@ -79,7 +71,7 @@ if(isset($_GET['action'])) {
 				<div class="col-sm-3">
 					<div class="list-group">
 						<a href="./access_control.php?action=rooms" class="list-group-item list-group-item-action <?php echo ($action == 'rooms' ? 'active' : ''); ?>">Pomieszczenia</a>
-						<a href="./access_control.php?action=access_cards" class="list-group-item list-group-item-action <?php echo ($action == 'access_cards' || $action == 'modify_access_card' || $action == 'delete_access_card' || $action == 'process_delete_access_card' ? 'active' : ''); ?>">Karty dostępu</a>
+						<a href="./access_control.php?action=access_cards" class="list-group-item list-group-item-action <?php echo ($action == 'access_cards' || $action == 'modify_access_card'|| $action == 'process_modify_access_card' || $action == 'delete_access_card' || $action == 'process_delete_access_card' ? 'active' : ''); ?>">Karty dostępu</a>
 						<a href="./access_control.php?action=add_access_card" class="list-group-item list-group-item-action <?php echo (($action == 'add_access_card' || $action == 'process_add_access_card') ? 'active' : ''); ?>">Nowa karta dostępu</a>
 					</div>
 				</div>
@@ -141,7 +133,7 @@ if(isset($_GET['action'])) {
 
 						$sql = "SELECT pesel FROM pracownicy";
 						$result = $mysqli->query($sql);
-						$pracownicy=array();						
+						$pracownicy=array();
 						while ($row = $result->fetch_assoc()) {
 							array_push($pracownicy, $row['pesel']);
 						}
@@ -175,7 +167,6 @@ if(isset($_GET['action'])) {
 								</div>';
 						} else {
 							$maksimum = $row['maksimum'];
-							echo 'MAKSIMUM ' . $maksimum;
 							if($maksimum == null) $numerkarty = 1;
 							else $numerkarty = intval($maksimum) + 1;
 							$sql_do2 = "INSERT INTO `karty_dostepu`(`numer`, `pracownicy_pesel`) VALUES ('".$numerkarty."', '".$posiadacz."')";

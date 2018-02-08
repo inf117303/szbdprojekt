@@ -54,15 +54,7 @@ if(isset($_GET['action'])) {
 						<a class="nav-link" href="./access_control.php">Kontrola dostępu</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="./treatments.php">Terapie</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-						<div class="dropdown-menu" aria-labelledby="dropdown01">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</div>
+						<a class="nav-link" href="./patients.php">Pacjenci</a>
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-auto">
@@ -220,7 +212,7 @@ if(isset($_GET['action'])) {
 							}
 						} else {
 							echo '<div class="alert alert-warning" role="alert">
-									<strong>Ostrzeżenie</strong> W formularzu pojawyły się błędy. Wszystkie pola poza telefonem są wymagane. Pensja musi być liczbą większą od zera.
+									<strong>Ostrzeżenie</strong> W formularzu pojawiły się błędy. Wszystkie pola poza telefonem są wymagane. Pensja musi być liczbą większą od zera.
 								</div>';
 						}
 					} elseif($action == 'payments') {
@@ -321,6 +313,33 @@ if(isset($_GET['action'])) {
 							echo '<div class="alert alert-warning" role="alert">
 									<strong>Ostrzeżenie</strong> W formularzu wprowadzono nieprawidłową wartość premii.
 								</div>';
+						}
+					} elseif($action == 'autopayments') {
+						echo "<h1>Automatyczne wypłaty</h1><p>Kliknij poniższy przycisk, aby automatycznie wypłacić pensję wszystkim pracownikom.</p>";
+
+						echo '<form action="./personnel.php?action=processautopayments" method="post">
+									<input type="hidden" name="confirmation" value="yes">
+									<button type="submit" class="btn btn-primary">Wypłać pensje</button>
+								</form>';
+					} elseif($action == 'processautopayments') {
+						$data = date('Y-m-d');
+						$sql_do1 = "SELECT pensja, pesel FROM pracownicy";
+						$result1 = $mysqli->query($sql_do1);
+						while ($row = $result1->fetch_assoc()) {
+							$pensja = $row['pensja'];
+							$pesel = $row['pesel'];
+							$sql_do2 = "INSERT INTO `wyplaty`(`data`, `kwota`, `pracownicy_pesel`) VALUES ('$data', '$pensja', '$pesel')";
+							$result2 = $mysqli->query($sql_do2);
+							if(!$result2) break;
+						}
+						if (!$result2) {
+						echo '<div class="alert alert-danger" role="alert">
+								<strong>Wystąpił błąd bazy danych!</strong><br>Numer błędu: '. $mysqli->errno .'<br>Opis: '. $mysqli->error .'
+							</div>';
+						} else {
+							echo '<div class="alert alert-success" role="alert">
+								<strong>Sukces</strong> Wszyscy pracownicy otrzymali wypłaty!
+							</div>';
 						}
 					}
 					
